@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}News{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Latest News</h2>
+    {% for news in object_list %}
+        <div class="card">
+            <div class="card-header">
+                <span class="font-weight-bold">{{ news.title }}</span> &middot;
+                <span class="text-muted">by {{ news.author }} |
+                {{ news.date }}</span>
+            </div>
+            <div class="card-body">
+                {{ news.body }}
+            </div>
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <div class="card-footer text-center text-muted">
+                    <a href="{% url 'news_edit' news.pk %}">Edit</a> | <a href="{% url 'news_delete' news.pk %}">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+        <br />
+        {% endfor %}
+{% else %}
+<a href="{% url 'login' %}">Log In</a> or
+<a href="{% url 'signup' %}">Sign Up</a> to see the latest news
+{% endif %}
+{% endblock content %}

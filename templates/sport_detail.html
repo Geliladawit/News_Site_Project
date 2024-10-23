@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="sport-entry">
+        <h2>{{ object.title }}</h2>
+        <p>by {{ object.author }} | {{ object.date }}</p>
+        <p>{{ object.body }}</p>
+    </div>
+        <p><a href="{% url 'sport_edit' sport.pk %}">Edit</a> |
+            <a href="{% url 'sport_delete' sport.pk %}">Delete</a></p>
+{% endblock content %}

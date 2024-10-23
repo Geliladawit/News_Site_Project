@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Sport{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Latest News</h2>
+    {% for sport in object_list %}
+        <div class="card">
+            <div class="card-header">
+                <span class="font-weight-bold">{{ sport.title }}</span> &middot;
+                <span class="text-muted">by {{ sport.author }} |
+                {{ sport.date }}</span>
+            </div>
+            <div class="card-body">
+                {{ sport.body }}
+            </div>
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <div class="card-footer text-center text-muted">
+                    <a href="{% url 'sport_edit' sport.pk %}">Edit</a> | <a href="{% url 'sport_delete' sport.pk %}">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+        <br />
+        {% endfor %}
+{% else %}
+    <a href="{% url 'login' %}">Log In</a> or
+    <a href="{% url 'signup' %}">Sign Up</a> to see the latest news
+{% endif %}
+{% endblock content %}
